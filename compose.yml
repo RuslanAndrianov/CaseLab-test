@@ -1,0 +1,39 @@
+services:
+  app:
+    container_name: app
+    image: caselab_test_app
+    ports:
+      - "8080:8080"
+    build:
+      context: ./
+      dockerfile: app.Dockerfile
+    depends_on:
+      - postgresql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/file_storage_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  postgresql:
+    container_name: postgresql
+    image: postgres:16
+    build:
+      context: ./
+      dockerfile: postgres.Dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: file_storage_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    networks:
+      - backend
+
+volumes:
+  postgresql: { }
+  app: { }
+
+networks:
+  backend: { }

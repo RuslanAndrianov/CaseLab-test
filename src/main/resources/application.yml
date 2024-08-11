@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: CaseLab_test
+  datasource:
+    url: jdbc:postgresql://localhost:5432/file_storage_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      allow-pool-suspension: true
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        boot:
+          allow_jdbc_metadata_access: false
+  sql:
+    init:
+      mode: never
+
+server:
+  port: 8080
